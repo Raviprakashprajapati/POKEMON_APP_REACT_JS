@@ -1,13 +1,15 @@
 import React from 'react'
-import Search from './component/Search';
-import Pokedex from './component/Pokedex';
+
 import './App.css';
+import CustomROuter from './component/CustomROuter';
+import Pokedex from './component/Pokedex';
 
 function App() {
   return (
     <div>
     
-      <Pokedex/>
+    {/* <Pokedex/> */}
+    <CustomROuter/>
       
     </div>
   )
