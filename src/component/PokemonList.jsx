@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
 import Pokemon from "./Pokemon";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
+
 
 function PokemonList() {
   const [loading, setLoading] = useState(true);
@@ -12,6 +11,7 @@ function PokemonList() {
   );
   const [nextUrl, setNextUrl] = useState("");
   const [prevUrl, setPrevUrl] = useState("");
+  const [randomNumber, setRandomNumber] = useState(1);
   // searching
 
   useEffect(() => {
@@ -21,14 +21,18 @@ function PokemonList() {
     }, 500); // Display loader for 3 seconds
   }, [pokemonUrl]);
 
+
+
   // extrat name and their url
   function pokemonApi() {
     setLoading(true);
+    // let url = randomNumber>1?`https://pokeapi.co/api/v2/pokemon?offset=${randomNumber}&limit=20`:pokemonUrl
     fetch(pokemonUrl)
       .then((response) => response.json())
       .then((value) => {
         setNextUrl(value.next);
         setPrevUrl(value.previous);
+        console.log("url = ",pokemonUrl)
         console.log(value);
         const valueResult = value.results;
 
@@ -73,12 +77,36 @@ function PokemonList() {
     };
   }, []);
 
+
+
+
+
+  const handleRandom = () => {
+    const min = 5;
+    const max = 1150;
+    const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+    setRandomNumber(randomNum);
+    // console.log(randomNumber)
+    setPokemonUrl(`https://pokeapi.co/api/v2/pokemon?offset=${randomNumber}&limit=20`)
+    
+
+
+
+  };
+
+
+
+
+
+
   return (
     <div>
-      <h4 className="text-center">Pokemon List</h4>
+      {/* <h4 className="text-center">Pokemon List</h4> */}
+    
+    
 
       {/* pagination */}
-      <div className="container d-flex justify-content-center  ">
+      <div className="container mb-4 d-flex justify-content-center  ">
         <button
           className="btn  btn-warning"
           disabled={prevUrl === null}
@@ -89,13 +117,28 @@ function PokemonList() {
 
         <button
           style={{ marginLeft: "5px" }}
+          className=" btn btn-danger"
+          disabled={nextUrl === null}
+          onClick={handleRandom}   
+        >
+          Random
+        </button>
+
+        <button
+          style={{ marginLeft: "5px" }}
           className=" btn btn-warning"
           disabled={nextUrl === null}
           onClick={() => setPokemonUrl(nextUrl)}
         >
           Next
         </button>
+
+        
       </div>
+
+      {/* <div className="d-flex justify-content-center mt-3 mb-3 " >
+    <button className="btn btn-danger  " onClick={handleRandom}    >Random Pokemon</button>
+    </div> */}
 
 
       {/* pokemon */}
@@ -118,6 +161,12 @@ function PokemonList() {
           )}
         </div>
       </div>
+
+
+    
+
+
+
     </div>
   );
 }

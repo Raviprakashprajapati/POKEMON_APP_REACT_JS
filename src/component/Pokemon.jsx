@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
-
-// height , name,species.name,sprites.other.dream_world.font-default -home-official-artwork
+import emoji from "./newemoji.png"
 
 function Pokemon({ name, height, experience, image1, species,id }) {
 
@@ -34,7 +33,11 @@ function Pokemon({ name, height, experience, image1, species,id }) {
 
    <Link to={`/pokemon/${id}`} style={{textDecoration:"none"}} >
     <Card  style={{ width: "10rem" }} className="mt-2 bg-warning-subtle ">
-        <Card.Img variant="top" src={image1} />
+        {
+          image1?<Card.Img variant="top" src={image1} />
+          :
+          <Card.Img variant="top" src={emoji} />
+        }
         <Card.Body  style={{textDecoration:"none"}} >
           <Card.Title className=" fw-bolder"  >Name : {name}</Card.Title>
           <Card.Title style={{fontFamily:"monospace"}} >Height : {height}</Card.Title>
